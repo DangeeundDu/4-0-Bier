@@ -24,3 +24,5 @@ class EsseSubmitter(Submitter):
         for flag, result in [x.values() for x in resp["data"]]:
             if result != "OK":
                 print(f"ERROR: submitting flag [{flag}] failed. Result: [{result}]")
+            elif result == "OK":
+                print("OK Flag")

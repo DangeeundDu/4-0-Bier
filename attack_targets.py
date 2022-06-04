@@ -111,6 +111,7 @@ class PostTarget(Target):
     def many_url(port: int, url: str, data: dict, https=False, **kwargs):
         def __inner(addresses: list[str]):
             return [PostTarget.url_encoded(addr, port, url, data, https, **kwargs) for addr in addresses]
+        return __inner
 
     @staticmethod
     def json_encoded(address: str, port: int, url: str, data: dict, https=False, **kwargs):
@@ -127,6 +128,8 @@ class PostTarget(Target):
         def __inner(addresses: list[str]):
             return [PostTarget.json_encoded(addr, port, url, data, https, **kwargs) for addr in addresses]
 
+        return __inner
+
     @staticmethod
     def xml_encoded(address: str, port: int, url: str, data: dict, https=False, **kwargs):
         target = PostTarget(address, port)
@@ -141,6 +144,8 @@ class PostTarget(Target):
     def many_xml(port: int, url: str, data: dict, https=False, **kwargs):
         def __inner(addresses: list[str]):
             return [PostTarget.xml_encoded(addr, port, url, data, https, **kwargs) for addr in addresses]
+
+        return __inner
 
     def json_response(self):
         return loads(self.response.text)

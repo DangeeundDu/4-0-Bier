@@ -32,5 +32,7 @@ def brute_force_hash():
 
 
 if __name__ == '__main__':
-    brute_force_hash()
+    secret = "asdfasdf"
+    print(compute_security_hash(secret, sql_query))
+    print(compute_security_hash(secret, sql_query + "OR TRUE"))
 

@@ -66,7 +66,7 @@ class AttackMethode:
     interval_seconds: int = 1
     logger: AttackLogger = None
     submitter: Submitter = None
-    max_threads: int = 0
+    max_threads: int = 1
     seconds_to_start: int = 0
     stop_time: float = float_info.max
     attacks_left: int = -1
@@ -86,7 +86,7 @@ class AttackMethode:
             elif self.attacks_left > 0:
                 self.attacks_left -= 1
 
-            if len(self.targets) == 1 or self.max_threads == 1:
+            if len(self.targets) == 1:
                 try:
                     with self.targets[0] as attack_target:
                         flags = self.attack_function(attack_target)
@@ -96,6 +96,17 @@ class AttackMethode:
                             self.submitter([flags])
                 except:
                     pass
+            elif self.max_threads == 1:
+                for target in self.targets:
+                    try:
+                        with target as attack_target:
+                            flags = self.attack_function(attack_target)
+                            if type(flags) is list:
+                                self.submitter(flags)
+                            else:
+                                self.submitter([flags])
+                    except:
+                        pass
 
                 Timer(self.interval_seconds, execute_attack).start()
             else:
@@ -150,6 +161,7 @@ def attack(target: Union[Target, list[Target]]):
     targets: list[Target]
     if type(target) is not list:
         targets = [target]
+    targets = target
 
     def __inner(f: Union[AttackMethode, Callable[[Union[Target, list[Target]]], str], str]):
         if type(f) is AttackMethode:

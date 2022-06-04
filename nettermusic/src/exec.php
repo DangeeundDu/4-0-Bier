@@ -101,6 +101,7 @@
     }
 
     // Secure Validator
+    // Fixed in prod
     $is_valid = false;
     #$validation_result = exec('./secure_validator '.$command);
     $validation_result = "TRUE"; // debug only pls remove and validate again
