@@ -1,0 +1,24 @@
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: #090a12;
+    color: white;
+}
+
+#container {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 50%;
+}
+
+#logo_img {
+    width: 100px;
+    border-radius: 20px;
+}
+
+.startpage_button {
+    padding-top: 50px;
+    color: white;
+    text-decoration: underline;
+    font-weight: bold;
+}

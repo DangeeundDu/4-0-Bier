@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>netterguestbook</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="style/style.css">
+	<script src="functions.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="images/logo/esse-icon.png">
+	<style>
+		body,
+		a,
+		a:visited {
+			color: #fff !important;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="content" style="background-image: url('images/wallpaper/glasses1-bg.png');">
+		<div class="flex_container">
+			<div style="text-align: left;"><button id="change_style_button" type="button"
+					onclick=change_background()>Change Style</button></div>
+			<div><a target="_blank" href="https://security.inso.tuwien.ac.at/"><img
+						src="images/logo/esse.png" alt="ESSE Logo" height="45"></a></div>
+			<div style="text-align: right;"><a href="index.html" style="color:white">Landing Page</a><br>
+				<br>
+				<a target="_blank" href="https://establishing-security.at/" style="color: white; font-size: 11px;">
+					&copy; 2022 ESSE (TU Wien, establishing-security.at)
+				</a><br>
+				<a target="_blank" href="https://defbra.at/" style="color: white; font-size: 11px;">Defragmented
+					Brains</a><br>
+			</div>
+		</div>
+		<div id="content-wrapper" class="service_desc">
+			<!-- START HERE -->
+			<h1>netterguestbook</h1>
+			<p>This is the most elaborated guestbook on the whole internet. We carefully crafted a unique user experience which
+				is unmatched by any other service. As we consider privacy a valuable human right, we also created the possibility
+				to make secret posts with content, which is not to be seen by the public. However, we highly encourage you to
+				create public posts to keep this guestbook vibrant and interesting.
+			</p>
+			<h2>Functionality</h2>
+			<p>The following functions are supported by this service and must be retained.</p>
+			<ul>
+				<li>Create public posts</li>
+				<li>Create secret posts</li>
+				<li>Posts consist of:<br><i>date (String), is_public ("0" xor "1"), secret (String, iff secret post), message
+					(String),
+					image_path (String)</i>
+				</li>
+				<li>Secret posts can be shown by entering the corresponding password.</li>
+				<li>You can also download a PDF of your posts.</li>
+				<li>The core functionalities are therefore creating, showing and downloading which have to work after each
+					attempted fix.
+				</li>
+			</ul>
+			<p><a href="https://##IP##:9999" target="_blank">Go to the service</a></p>
+			<!-- END HERE -->
+		</div>
+	</div>
+</body>
+
+</html>

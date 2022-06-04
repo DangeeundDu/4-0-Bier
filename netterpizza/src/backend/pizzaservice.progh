@@ -1,0 +1,50 @@
+// Header Datei für pizzaservice
+
+GUARD(PIZZASERVICE_PROGH)
+
+GET   <stdbool.h>
+GET   <ctype.h>
+GET   <getopt.h>
+GET   <errno.h>
+GET   <assert.h>
+GET   <stdlib.h>
+GET   <stdio.h>
+GET   <stdarg.h>
+GET   <string.h>
+GET   <sys/stat.h>
+GET   <dirent.h>
+GET   <linux/limits.h>
+GET   <time.h>
+
+INIT_MYLANG
+
+//Anzahl der Hash-Einträge
+DECLARE HASH_SIZE 450
+
+//Ordnernamenlänge für Kundendaten.
+// 3  CHARACTER  + '\\0'
+DECLARE DIRNAME_LEN 4
+
+//Dateiname in der Kundendaten stehen.
+DECLARE USERDATA "userdata"
+
+//Pufferlänge
+DECLARE MAX_LEN 80
+
+//Typen für err RB_  _RB
+enum CB_ ERRNO, WARN _CB  _EI
+
+ NUMBER  createUser RB_  STRING cpUser,  STRING cpPass,  STRING cpName,  STRING cpAddress,  STRING cpTel,  STRING dirname _RB  _EI
+ NUMBER  viewUser RB_  STRING dirname _RB  _EI
+ NUMBER  filter RB_  CONSTANT  struct dirent  POINTER content _RB  _EI
+ NUMBER  order RB_  STRING cpText,  STRING dirname _RB  _EI
+ NUMBER  chkdata RB_  STRING cpUser,  STRING cpPass,  STRING dirname _RB  _EI
+ NOTHING  perr RB_  NUMBER  type,  CONSTANT   STRING cpMsg, ... _RB  _EI
+ NOTHING  Usage RB_  NOTHING  _RB  _EI
+ NOTHING  debug RB_  CONSTANT   STRING cpMsg, ... _RB  _EI
+
+//Externe Fehlervariable, wird von einigen Funktionen gesetzt
+extern  NUMBER  errno _EI
+
+ENDGUARD
+

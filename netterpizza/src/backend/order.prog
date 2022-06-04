@@ -1,0 +1,52 @@
+GET "pizzaservice.progh"
+
+/**
+ * Legt eine Bestellungsdatei an.
+ */
+NUMBER FUNCTION(order) RB_ STRING cpText, STRING dirname _RB
+CB_
+	FILE POINTER fd  EQUAL   RB_ FILE POINTER _RB 0 _EI
+	CHARACTER path SB_ PATH_MAX _SB , filename SB_ NAME_MAX _SB ,  POINTER cpBuffer _EI
+	TIME tOrder  EQUAL   RB_ TIME _RB -1 _EI
+
+	debug RB_ "%s()", __func__ _RB  _EI
+
+	tOrder  EQUAL  time RB_ NULL _RB  _EI
+	IS RB_  tOrder  EQUAL_TO   RB_ TIME _RB -1  _RB
+	 CB_
+		perr RB_ WARN, "Could not get order date!" _RB  _EI
+		GIVEBACK EXIT_FAILURE _EI
+	 _CB
+
+	snprintf RB_ filename, NAME_MAX, "%ld", tOrder _RB  _EI
+	snprintf RB_ path, PATH_MAX, "%s/%s", dirname, filename _RB  _EI
+
+	IS RB_   RB_ fd  EQUAL  fopen RB_ path, "w" _RB  _RB   EQUAL_TO   RB_ FILE  POINTER  _RB 0  _RB
+	 CB_
+		perr RB_ ERRNO, "Could not save the order." _RB  _EI
+		GIVEBACK EXIT_FAILURE _EI
+	 _CB
+
+	cpBuffer  EQUAL  ctime RB_ &tOrder _RB  _EI
+	cpBuffer SB_  strlen RB_ cpBuffer _RB  - 1  _SB   EQUAL  '\0' _EI
+	fprintf RB_ fd, "Order %s:\n\n%s\n", cpBuffer, cpText _RB  _EI
+
+	IS RB_ ferror RB_ fd _RB   NOT_EQUAL  0 _RB
+	 CB_
+		perr RB_ ERRNO, "Error at saving the order" _RB  _EI
+		IS RB_ fclose RB_ fd _RB   NOT_EQUAL  0 _RB
+		 CB_
+			perr RB_ ERRNO, "can't close file" _RB  _EI
+		 _CB
+		GIVEBACK EXIT_FAILURE _EI
+	 _CB
+
+	IS RB_ fclose RB_ fd _RB   NOT_EQUAL  0 _RB
+	 CB_
+		perr RB_ ERRNO, "can't close order file" _RB  _EI
+		GIVEBACK EXIT_FAILURE _EI
+	 _CB
+
+	GIVEBACK EXIT_SUCCESS _EI
+_CB
+

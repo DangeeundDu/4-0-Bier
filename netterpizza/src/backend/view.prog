@@ -1,0 +1,146 @@
+//Modul zum Anzeigen der Kundendaten und Bestellungen
+
+GET  "pizzaservice.progh"
+
+//Zeigt Kundendaten und Bestellungen an.
+ NUMBER  viewUser RB_  STRING dirname _RB
+ CB_
+	FILE  POINTER fd  EQUAL   RB_ FILE  POINTER  _RB 0 _EI
+	 CHARACTER  path SB_ PATH_MAX _SB , caBuffer SB_ MAX_LEN _SB ,  POINTER cpPar  EQUAL   RB_  STRING  _RB 0 _EI
+	 NUMBER  n  EQUAL  0 _EI
+	struct dirent  POINTER  POINTER namelist  EQUAL   RB_ struct dirent  POINTER  POINTER  _RB 0 _EI
+
+	debug RB_ "%s()", __func__ _RB  _EI
+
+	n  EQUAL  scandir RB_ dirname, &namelist, filter, alphasort _RB  _EI
+	 IS  RB_  n  SMALLER  0  _RB
+	 CB_
+		perr RB_ ERRNO, "Can not read user dir." _RB  _EI
+		 GIVEBACK  EXIT_FAILURE _EI
+	 _CB
+	 OTHERWISE
+	 CB_
+		snprintf RB_ path, sizeof RB_ path _RB , "%s/%s", dirname, USERDATA _RB  _EI
+		fd  EQUAL  fopen RB_ path, "r" _RB  _EI
+		 IS  RB_ fd  EQUAL_TO   RB_ FILE  POINTER  _RB 0 _RB
+		 CB_
+			perr RB_ ERRNO, "can't open USERDATA." _RB  _EI
+			free RB_ namelist _RB  _EI
+			 GIVEBACK  EXIT_FAILURE _EI
+		 _CB
+
+		debug RB_ "Reading user data from %s", path _RB  _EI
+		 AS_LONG  RB_  fgets RB_ caBuffer, MAX_LEN, fd _RB   NOT_EQUAL   RB_  STRING  _RB 0  _RB
+		 CB_
+			cpPar  EQUAL  strtok RB_ caBuffer, " = " _RB  _EI
+			debug RB_ "processing line %s", cpPar _RB  _EI
+
+			 IS  RB_ strncmp RB_ "NAME", cpPar, strlen RB_ "NAME" _RB  _RB   EQUAL_TO  0 _RB
+			 CB_
+				cpPar  EQUAL  strtok RB_  RB_  STRING  _RB 0, " = " _RB  _EI
+				debug RB_ "Value = %s", cpPar _RB  _EI
+				 IS  RB_ cpPar  NOT_EQUAL   RB_  STRING  _RB 0 _RB
+				 CB_
+					cpPar SB_  strlen RB_ cpPar _RB  - 1  _SB   EQUAL  '\0' _EI
+					fprintf RB_ stdout, "Data of %s:\n", cpPar _RB  _EI
+				 _CB
+				 OTHERWISE
+				 CB_
+					perr RB_ WARN, "Name is empty!" _RB  _EI
+				 _CB
+			 _CB
+			 OTHERWISE   IS  RB_ strncmp RB_ "ADDRESS", cpPar, strlen RB_ "ADDRESS" _RB  _RB   EQUAL_TO  0 _RB
+			 CB_
+				cpPar  EQUAL  strtok RB_  RB_  STRING  _RB 0, " = " _RB  _EI
+				debug RB_ "Value = %s", cpPar _RB  _EI
+
+				 IS  RB_ cpPar  NOT_EQUAL   RB_  STRING  _RB 0 _RB
+				 CB_
+					fprintf RB_ stdout, "\tdelivery address: %s", cpPar _RB  _EI
+				 _CB
+				 OTHERWISE
+				 CB_
+					perr RB_ WARN, "address is empty!" _RB  _EI
+				 _CB
+			 _CB
+			 OTHERWISE   IS  RB_ strncmp RB_ "TEL", cpPar, strlen RB_ "TEL" _RB  _RB   EQUAL_TO  0 _RB
+			 CB_
+				cpPar  EQUAL  strtok RB_  RB_  STRING  _RB 0, " = " _RB  _EI
+				debug RB_ "Value = %s", cpPar _RB  _EI
+
+				 IS  RB_ cpPar  NOT_EQUAL   RB_  STRING  _RB 0 _RB
+				 CB_
+					fprintf RB_ stdout, "\tTel: %s\n", cpPar _RB  _EI
+				 _CB
+				 OTHERWISE
+				 CB_
+					perr RB_ WARN, "Tel is empty!" _RB  _EI
+				 _CB
+			 _CB
+
+			 IS  RB_ cpPar  EQUAL_TO   RB_  STRING  _RB 0 _RB   STOPHERE  _EI
+		 _CB
+
+		 IS  RB_ ferror RB_ fd _RB   NOT_EQUAL  0 _RB
+		 CB_
+			perr RB_ ERRNO, "Error at reading customer data." _RB  _EI
+			 RB_  NOTHING  _RB  fclose RB_ fd _RB  _EI
+			free RB_ namelist _RB  _EI
+			 GIVEBACK  EXIT_FAILURE _EI
+		 _CB
+
+		 AS_LONG  RB_ n-- _RB
+		 CB_
+			snprintf RB_ path, strlen RB_ namelist SB_ n _SB  POINT d_name _RB  + strlen RB_ dirname _RB  + 2, "%s/%s", dirname, namelist SB_ n _SB  POINT d_name _RB  _EI
+			fd  EQUAL  fopen RB_ path, "r" _RB  _EI
+			 IS  RB_ fd  EQUAL_TO   RB_ FILE  POINTER  _RB 0 _RB
+			 CB_
+				perr RB_ ERRNO, "can not open order: %s", namelist SB_ n _SB  POINT d_name _RB  _EI
+				free RB_ namelist _RB  _EI
+				 GIVEBACK  EXIT_FAILURE _EI
+			 _CB
+
+			 AS_LONG  RB_  fgets RB_ caBuffer, MAX_LEN, fd _RB   NOT_EQUAL   RB_  STRING  _RB 0  _RB
+			 CB_
+				fprintf RB_ stdout, "%s", caBuffer _RB  _EI
+			 _CB
+			fprintf RB_ stdout, "----------------------------------------\n" _RB  _EI
+
+			 IS  RB_ ferror RB_ fd _RB   NOT_EQUAL  0 _RB
+			 CB_
+				perr RB_ ERRNO, "Error at reading order data: %s", namelist SB_ n _SB  POINT d_name _RB  _EI
+				 RB_  NOTHING  _RB  fclose RB_ fd _RB  _EI
+				free RB_ namelist _RB  _EI
+				 GIVEBACK  EXIT_FAILURE _EI
+			 _CB
+
+			free RB_ namelist SB_ n _SB  _RB  _EI
+		 _CB
+		free RB_ namelist _RB  _EI
+	 _CB
+
+	 GIVEBACK  EXIT_SUCCESS _EI
+ _CB
+
+//Filterfunktion um nur Bestellungen innerhalb eines Ordners aufzufinden
+//Stellt fuer einen Verzeichniseintrag an Hand des Dateinamens fest, ob es eine Bestellung
+//ist und somit angezeigt werden soll, oder eine andere Datei.
+//Filterkriterium: Dateiname besteht nur aus Ziffern  EQUAL  GREATER  Rechnung.
+ NUMBER  filter RB_  CONSTANT  struct dirent  POINTER content _RB
+ CB_
+	 NUMBER  i  EQUAL  0 _EI
+
+	debug RB_ "%s()", __func__ _RB  _EI
+
+	 FLOOP  RB_ i  EQUAL  0 _EI  i  SMALLER RB_ NUMBER _RB strlen RB_ content POINT d_name _RB  _EI  i++ _RB
+	 CB_
+		 IS  RB_  !isdigit RB_ content POINT d_name SB_ i _SB  _RB   _RB
+		 CB_
+			//  Eintrag besteht nicht nur aus Ziffern
+			 GIVEBACK  0 _EI
+		 _CB
+	 _CB
+	//  Eintrag besteht nur aus Ziffern
+	 GIVEBACK  1 _EI
+ _CB
+

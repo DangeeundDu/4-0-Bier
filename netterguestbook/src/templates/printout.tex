@@ -1,0 +1,28 @@
+\documentclass[12pt]{article}
+\usepackage{verbatim}
+
+\begin{document}
+
+\section*{Printout -- {{data | length}} items}
+
+
+{% if data %}
+
+    \begin{enumerate}
+        {% for post in data %} 
+            \item[{{post[1]}}]
+
+            \begin{verbatim}
+                {{post[4]}}
+            \end{verbatim}
+
+        {% endfor %}
+    \end{enumerate}
+
+{% else %}
+
+    No posts to show.
+
+{% endif %}
+
+\end{document}

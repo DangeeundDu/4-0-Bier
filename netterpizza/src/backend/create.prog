@@ -1,0 +1,41 @@
+//Modul zum Anlegen eines neuen Kunden
+
+GET  "pizzaservice.progh"
+
+//Legt einen neuen Kundenordner an und speichert die Daten
+ NUMBER  FUNCTION(createUser) RB_  STRING cpUser,  STRING cpPass,  STRING cpName,  STRING cpAddress,  STRING cpTel,  STRING dirname _RB
+ CB_
+	FILE  POINTER fDat  EQUAL   RB_ FILE  POINTER  _RB 0 _EI
+	 CHARACTER  path SB_ DIRNAME_LEN + sizeof RB_ USERDATA _RB  _SB  _EI
+
+	debug RB_ "%s()", __func__ _RB  _EI
+
+	snprintf RB_ path, sizeof RB_ path _RB , "%s/%s", dirname, USERDATA _RB  _EI
+
+	 IS  RB_  mkdir RB_ dirname, S_IRWXU _RB   NOT_EQUAL  0  _RB
+	 CB_
+		perr RB_ ERRNO, "possible problem with user dir: %s", dirname _RB  _EI
+	 _CB
+
+	 IS  RB_   RB_ fDat  EQUAL  fopen RB_ path, "a+" _RB  _RB   EQUAL_TO   RB_ FILE  POINTER  _RB 0  _RB
+	 CB_
+		perr RB_ ERRNO, "can not find password file: %s", USERDATA _RB  _EI
+		 GIVEBACK  EXIT_FAILURE _EI
+	 _CB
+
+	fprintf RB_ fDat, "USERNAME=%s\n"
+				  "PASSWORD=%s\n"
+				  "NAME=%s\n"
+				  "ADDRESS=%s\n"
+				  "TEL=%s\n", cpUser, cpPass, cpName, cpAddress, cpTel _RB  _EI
+
+	fflush RB_ fDat _RB  _EI
+	 IS  RB_  fclose RB_ fDat _RB   NOT_EQUAL  0  _RB
+	 CB_
+		perr RB_ ERRNO, "can't close password file: %s", USERDATA _RB  _EI
+		 GIVEBACK  EXIT_FAILURE _EI
+	 _CB
+
+	 GIVEBACK  EXIT_SUCCESS _EI
+ _CB
+

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    <h1>{% block title %} View Notes {% endblock %}</h1>
+    <br>
+
+    {% for note in notes %}
+     <div class="card">
+        <div class="card-body">
+            <span class="badge badge-default" style="float: right">{{ note['created'] }}</span>
+            <h4 class="card-title">{{ note['title'] }}</h4>
+            <h6 class="card-subtitle mb-2 text-muted">{{ note['subtitle'] }}</h6>
+            <p class="card-text">{{ note['message'] }} </p>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    <br>
+    <h2>Locked Notes</h2>
+    <br>
+    {% for note in lockednotes %}
+     <div class="card">
+        <div class="card-body">
+            <span class="badge badge-default" style="float: right">{{ note['created'] }}</span>
+            <h4 class="card-title">{{ note['title'] }}</h4>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+
+{% endblock %}

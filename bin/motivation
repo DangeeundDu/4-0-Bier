@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+echo """You can do it!!
+Any exploit is a journey.
+10% of life is what happens to you and 90% is how you pwn this service now!!! :>
+The future holds all the exploits.
+Don't meltdown, you will find it if you look for it!!
+I suspectre that you are very close!!!
+Failure leads to exploits. Exploits lead to FLAGS AND POINTS!!!!!!!!!!!!!!!!!!!!!!!!!!
+It doesn't matter how slow you bruteforce, as long as you never stop.
+If you can dream it, you can exploit it!
+If you're going through hell, keep going!!
+Quality is not an act, it is the goal of software engineering obtained by a well defined process. And these services certainly did not go through one.
+Aim for the moon. If you miss you might get shot down by a defense missile. Hopefully it has bugs.
+You've already come so far!""" | shuf --random-source=/dev/urandom | head -n1

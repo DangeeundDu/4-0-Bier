@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>nettermusic</title>
+    <link rel="stylesheet" href="nettermusicstyle.css">
+</head>
+
+<body>
+    <div id="container">
+        <h1>nettermusic</h1>
+        <img id="logo_img" src="nettermusic.png" alt="Logo von Nettermusic"><br><br>
+        <form action="exec.php" method="post">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username"><br><br>
+
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password"><br><br>
+
+            <p>Action:</p>
+            <input type="radio" id="create" name="command" value="create">
+            <label for="create">Create New Playlist</label><br>
+
+            <input type="radio" id="delete" name="command" value="delete">
+            <label for="delete">Delete Playlist</label><br>
+
+            <input type="radio" id="list" name="command" value="list">
+            <label for="list">List all my Playlists</label><br>
+
+            <input type="radio" id="play" name="command" value="play">
+            <label for="play">Play Random Song from Playlist</label><br><br><br>
+
+            <label for="specifier">Specifier:</label>
+            <p>
+                <small>
+                    <b>Create New Playlist:</b> YouTube URL|YouTube URL|...<br>
+                    <b>Delete Playlist:</b> Playlist ID<br>
+                    <b>List all my Playlists:</b> <i>no specifier</i><br>
+                    <b>Play Random Song from Playlist:</b> Playlist ID
+                </small>
+            </p>
+            <input type="text" id="specifier" name="specifier"><br><br><br>
+
+            <input type="submit" value="Do it!">
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+
+
+<html>
+
+<title>New Post</title>
+
+   <head>
+<style>
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1.2em;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 75%;
+    text-align: center;
+    background-color: #E7E4DE;
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: bold;
+    color: #3278b6;
+    padding-top: 0.25em;
+}
+
+#posts_div div {
+    background: white;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    border: 3px solid #3278b6;
+    border-left: 20px solid #3278b6;
+}
+
+p.visible {
+    font-size: 0.75em;
+    font-weight: 4;
+    font-style: italic;
+}
+
+.eye {
+    font-size: 1.25em;
+}
+
+.image_post {
+    max-width: 150px;
+    max-height: 150px;
+    border: 3px solid #3278b6;
+    margin-top: 5px;
+    margin-bottom: 25px;
+}
+
+.date {
+    font-size: 0.75em;
+}
+
+.create_post {
+    background: #3278b6;
+    font-size: 1.2em;
+    font-weight: 6;
+    color: white;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    width: auto;
+    text-decoration: none;
+}
+
+.create_post:hover {
+    background:lightblue;
+    color: darkblue;
+    border: 3px solid darkblue;
+}
+
+.show_secrets {
+    font-weight: normal;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 5px;
+    font-size: 1em;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.button_create {
+    margin: 35px;
+}
+
+.secret_text {
+    font-size: 1em;
+    border: 3px solid #3278b6;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+#secret_input {
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+
+</style>
+
+<script>
+function private_() {
+	secret_input.style.display = "inherit";
+}
+
+function public_() {
+	secret_input.style.display = "none";
+}
+
+</script>
+
+   </head>
+   <body>
+      <form action = "/post" method = "POST" 
+         enctype = "multipart/form-data" id="create_post">
+         <input class="secret_text create_post" type = "file" name = "file" />
+		<p>Note that the max. file size is 2 MB.</p>
+         <br>
+
+	<input type="radio" id="is_public_1" name="is_public" onclick="public_();" value="1" checked>
+	<label for="is_public_1">Public</label><br>
+	<input type="radio" id="is_public_0" name="is_public" onclick="private_();" value="0">
+	<label for="is_public_0">Private</label>
+    
+    <br><br>
+
+	<input id="secret_input" style="display:none" name="secret" placeholder="Password ..." class="secret_text" type="password"> <br><br>
+
+	<textarea required name="message" form="create_post" class="secret_text" style="width: 55%" placeholder="Enter text here..."></textarea> <br><br>
+	
+    <input class="create_post show_secrets" type = "submit" value="Create Post now"/>
+
+      </form>
+
+   </body>
+</html>
+

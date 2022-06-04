@@ -4,7 +4,7 @@ import requests
 
 
 class EsseSubmitter(Submitter):
-    bearer: str = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlJPTEVfU1RVREVOVCxST0xFX1RFQU0wOCIsInRlYW1JZCI6OCwic3ViIjoiZTEyMDIxMTUyIiwiaWF0IjoxNjU0MzIyMjk0LCJleHAiOjE2NTQ0MDg2OTR9.qRRG7cliC7cC9TdsiR_rmbIIkgLvioj1pzSNJasw7Qw"
+    bearer: str = "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6IlJPTEVfU1RVREVOVCxST0xFX1RFQU0wOCIsInRlYW1JZCI6OCwic3ViIjoiZTEyMDIxMTUyIiwiaWF0IjoxNjU0MzI3ODM2LCJleHAiOjE2NTQ0MTQyMzZ9.HCMFjdJvzwcTcDajL07GtcFRMT3rp4EzjtBet7Dwp-_Umq-BdcAXs6u9KYdF-327QOZYw-D2PC5XADwCIGYSiA"
     server = "10.10.40.200"
     port = "443"
     url = f"https://{server}:{port}/api/flags"

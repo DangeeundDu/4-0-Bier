@@ -1,0 +1,121 @@
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background: #090a12;
+    color: white;
+}
+
+.img_logo {
+    width: 150px;
+    border-radius: 20px;
+}
+
+#container {
+    width: 50%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* credits go to: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e05491;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #e05491;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #e05491;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.flex-container>div {
+    width: 42.5%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.download_label p {
+    text-align: right;
+    margin-top: 8px;
+}
+
+.upload_label p {
+    text-align: left;
+    margin-top: 8px;
+}
+
+.switch_wrapper {
+    width: 15% !important;
+}
+
+.pizza_go {
+    background: #841400;
+    color: white;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 14pt;
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+.pizza_go:hover {
+    background: #f0ad00;
+    color: black;
+}

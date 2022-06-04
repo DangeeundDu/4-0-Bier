@@ -1,0 +1,189 @@
+version: '2.4'
+
+networks:
+  service-net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/24
+  nettermaps-internal:
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.4.0/24
+  nettermusic-internal:
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.5.0/24
+
+services:
+  haproxy:
+    image: 'haproxy:2.4'
+    container_name: 'haproxy'
+    hostname: 'haproxy'
+    restart: 'always'
+    init: true
+    cpu_shares: 512
+    mem_limit: '384m'
+    memswap_limit: '400m'
+    volumes:
+      - './etc/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro'
+      - './etc/ssl.pem:/etc/ssl/private/ssl.pem:ro'
+    ports:
+      - '80:8080' # landing-page service (redirect)
+      - '443:8443' # landing-page service (SSL)
+      - '8000:8000' # netternotes service (SSL)
+      - "9999:9999" # netterguestbook service (SSL)
+      - "9000:9000" # nettermusic service (SSL)
+      - '8495:8495' # nettermaps service (SSL)
+      - '8333:8333' # netterpizza service (SSL)
+    networks:
+      - 'service-net'
+
+  landing-page:
+    image: 'landing-page:latest'
+    build:
+      context: './landing-page/src'
+    container_name: 'landing-page'
+    hostname: 'landing-page'
+    restart: 'always'
+    init: true
+    cpu_shares: 256
+    mem_limit: '384m'
+    memswap_limit: '384m'
+    pids_limit: 50
+    env_file:
+      - './etc/landing-page.env'
+    depends_on:
+      - 'haproxy'
+    networks:
+      - 'service-net'
+
+  netternotes:
+    image: 'netternotes:latest'
+    build:
+      context: './netternotes/src'
+    container_name: 'netternotes'
+    hostname: 'netternotes'
+    restart: 'always'
+    init: true
+    cpu_shares: 256
+    mem_limit: '384m'
+    memswap_limit: '400m'
+    depends_on:
+      - 'haproxy'
+    networks:
+      - 'service-net'
+
+  netterguestbook:
+    image: 'netterguestbook:latest'
+    build:
+      context: './netterguestbook/src'
+    container_name: 'netterguestbook'
+    hostname: 'netterguestbook'
+    restart: 'always'
+    init: true
+    cpu_shares: 256
+    mem_limit: '384m'
+    memswap_limit: '400m'
+    depends_on:
+      - 'haproxy'
+    networks:
+      - 'service-net'
+
+  nettermusic-psql:
+    image: 'postgres:13-alpine'
+    environment:
+      - POSTGRES_PASSWORD=ptxcWpLxcpLxclUddVHHwz9D
+    container_name: 'nettermusic-psql'
+    hostname: 'nettermusic-psql'
+    restart: 'always'
+    cpu_shares: 256
+    mem_limit: '386m'
+    memswap_limit: '500m'
+    volumes:
+      - './etc/nettermusic.postgres-init.sql:/docker-entrypoint-initdb.d/nettermusic.sql:ro'
+      - 'nettermusic-psql-data:/var/lib/postgresql/data'
+    expose:
+      - '5432'
+    networks:
+      - 'nettermusic-internal'
+    command: '-c shared_buffers=64MB -c synchronous_commit=off -c wal_writer_delay=2333ms -c max_wal_size=200MB'
+
+  nettermusic:
+    image: 'nettermusic:latest'
+    build:
+      context: './nettermusic/src'
+    container_name: 'nettermusic'
+    hostname: 'nettermusic'
+    restart: 'always'
+    init: true
+    cpu_shares: 256
+    mem_limit: '384m'
+    memswap_limit: '400m'
+    depends_on:
+      - 'nettermusic-psql'
+      - 'haproxy'
+    networks:
+      - 'service-net'
+      - 'nettermusic-internal'
+
+  nettermaps-psql:
+    image: 'postgres:13-alpine'
+    environment:
+      - POSTGRES_PASSWORD=ptk9eipWpLxclUdVHHwz9D
+    container_name: 'nettermaps-psql'
+    hostname: 'nettermaps-psql'
+    restart: 'always'
+    cpu_shares: 256
+    mem_limit: '386m'
+    memswap_limit: '500m'
+    volumes:
+      - './etc/nettermaps.postgres-init.sql:/docker-entrypoint-initdb.d/nettermaps.sql:ro'
+      - 'nettermaps-psql-data:/var/lib/postgresql/data'
+    expose:
+      - '5432'
+    networks:
+      - 'nettermaps-internal'
+    command: '-c shared_buffers=64MB -c synchronous_commit=off -c wal_writer_delay=2333ms -c max_wal_size=200MB'
+
+  nettermaps:
+    image: 'nettermaps:latest'
+    build:
+      context: './nettermaps/src'
+    container_name: 'nettermaps'
+    hostname: 'nettermaps'
+    restart: 'always'
+    init: true
+    cpu_shares: 256
+    mem_limit: '384m'
+    memswap_limit: '400m'
+    depends_on:
+      - 'nettermaps-psql'
+      - 'haproxy'
+    networks:
+      - 'service-net'
+      - 'nettermaps-internal'
+
+  netterpizza:
+    image: "netterpizza:latest"
+    build:
+      context: "./netterpizza/src"
+    container_name: "netterpizza"
+    hostname: "netterpizza"
+    restart: "always"
+    init: true
+    cpu_shares: 256
+    mem_limit: "384m"
+    memswap_limit: "400m"
+    depends_on:
+      - "haproxy"
+    networks:
+      - "service-net"
+
+volumes:
+  nettermusic-psql-data:
+  nettermaps-psql-data:

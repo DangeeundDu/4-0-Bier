@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <br>
+    <h1>{% block title %} Add a New Note {% endblock %}</h1>
+    <form method="post">
+    <br>
+    <div class="form-group">
+        <input type="text" name="title" placeholder="Enter Title" class="form-control" id="title" maxlength="30"><br>
+        <input type="text" name="subtitle" placeholder="Enter Subtitle" class="form-control" id="subtitle" maxlength="15"><br>
+        <textarea type="text" name="message" placeholder="Note content" class="form-control" maxlength="300" autofocus required></textarea><input type="checkbox" id="locked" name="locked" value="1">
+        <label for="locked"> Lock Note</label><br><br>
+        <input type="password" name="note_password" placeholder="Enter Password" class="form-control" id="note_password">
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+D=$(dirname $(readlink -f $0))
+. $D/common
+
+docker-compose rm --force --stop $*
+
+docker_cleanup
+echo "*** Done."
+exit 0

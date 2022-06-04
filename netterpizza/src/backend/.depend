@@ -1,0 +1,5 @@
+.chkdata.o: .chkdata.c .pizzaservice.h
+.create.o: .create.c .pizzaservice.h
+.order.o: .order.c .pizzaservice.h
+.view.o: .view.c .pizzaservice.h
+.pizzaservice.o: .pizzaservice.c .pizzaservice.h

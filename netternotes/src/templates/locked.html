@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    <h1>{% block title %} View Locked Notes {% endblock %}</h1>
+    <br>
+
+    <form class="form-inline" action="/locked" method="GET">
+        <div class="form-group mb-2">
+            <input type="text" name="title" placeholder="Enter Title" class="form-control">
+            <input placeholder="Enter Password" type="password" name="password" class="form-control">
+        </div>
+         <button type="submit" class="btn btn-primary mb-2">Unlock Notes</button>
+    </form>
+    <br>
+    {% for note in notes %}
+    <div class="card">
+        <div class="card-body">
+            <span class="badge badge-default" style="float: right">{{ note['created'] }}</span>
+            <h4 class="card-title">{{ note['title'] }}</h4>
+            <h6 class="card-subtitle mb-2 text-muted">{{ note['subtitle'] }}</h6>
+            <p class="card-text">{{ note['message'] }}</p>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+
+{% endblock %}

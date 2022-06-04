@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+
+D=$(dirname $(readlink -f $0))
+. $D/common
+
+[[ $# -gt 0 ]] || error "Usage: $0 <service name>"
+
+echo "WARNING: Modifications of the service container are not persistent!"
+
+docker-compose exec $1 /bin/sh -c """
+(which /bin/zsh > /dev/null && (/bin/zsh; true)) ||\
+(which /bin/bash > /dev/null && (/bin/bash; true)) ||\
+(which /bin/ash > /dev/null && (/bin/ash; true)) ||\
+(which /bin/sh > /dev/null && (/bin/sh; true))
+"""
+exit 0

@@ -1,0 +1,36 @@
+function error {
+  2>&1 echo "$*"
+  exit 1
+}
+
+function base_directory {
+  local SELF=$1
+  local D=$(dirname $(readlink -f $0))
+  local BASE=$(readlink -f $D/../)
+  [[ -d "$BASE" ]] || error "Failed to find base directory!"
+  echo "$BASE"
+  return 0
+}
+
+function require {
+  local BIN=$1
+  X="$(which $BIN)"
+  [[ -x $X ]] || error "Failed to find $BIN"
+  return 0
+}
+
+function docker_cleanup {
+  require docker
+  docker container prune -f > /dev/null
+  docker image prune -f > /dev/null
+  docker builder prune -f > /dev/null
+  return 0
+}
+
+require docker
+require docker-compose
+
+BASE_DIR=$(base_directory $0)
+cd $BASE_DIR/
+
+[[ -f docker-compose.yml ]] || error "docker-compose.yml is missing!"

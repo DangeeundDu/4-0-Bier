@@ -1,0 +1,62 @@
+//Modul fuer die Ueberpruefung der Zugangsdaten
+
+GET "pizzaservice.progh"
+
+//Ueberprueft die vom Kunden angegebenen Zugangsdaten
+ NUMBER FUNCTION(chkdata) RB_  STRING cpUser,  STRING cpPass,  STRING dirname _RB
+ CB_
+	FILE  POINTER fd  EQUAL   RB_ FILE  POINTER  _RB 0 _EI
+	 CHARACTER  path SB_ PATH_MAX _SB , caBuffer SB_ MAX_LEN _SB ,  POINTER cpPar  EQUAL   RB_  STRING  _RB 0 _EI
+	 LOGIC  bPass  EQUAL  LIE, bUser  EQUAL  LIE _EI
+
+	debug RB_ "%s()", __func__ _RB  _EI
+
+	snprintf RB_ path, PATH_MAX, "%s/%s", dirname, USERDATA _RB  _EI
+
+	 IS  RB_   RB_ fd  EQUAL  fopen RB_ path, "r" _RB  _RB  EQUAL_TO  RB_ FILE  POINTER  _RB 0  _RB
+	 CB_
+		perr RB_ ERRNO, "Data not found." _RB  _EI
+		 GIVEBACK  EXIT_FAILURE _EI
+	 _CB
+
+	 AS_LONG  RB_  fgets RB_ caBuffer, MAX_LEN, fd _RB   NOT_EQUAL   RB_  STRING  _RB 0  _RB
+	 CB_
+		cpPar  EQUAL  strtok RB_ caBuffer, "=" _RB  _EI
+
+		 IS  RB_ strncmp RB_ "USERNAME", cpPar, strlen RB_ "USERNAME" _RB  _RB  EQUAL_TO 0 _RB
+		 CB_
+			cpPar  EQUAL  strtok RB_  RB_  STRING  _RB 0, "=" _RB  _EI
+			 IS  RB_  strncmp RB_ cpUser, cpPar, strlen RB_ cpUser _RB  _RB  EQUAL_TO 0  _RB
+			 CB_
+				bUser  EQUAL  TRUTH _EI
+			 _CB
+		 _CB
+		 OTHERWISE  IS RB_ strncmp RB_ "PASSWORD", cpPar, strlen RB_ "PASSWORD" _RB  _RB  EQUAL_TO 0 _RB
+		 CB_
+		 	cpPar  EQUAL  strtok RB_  RB_  STRING  _RB 0, "=" _RB  _EI
+			 IS  RB_  strncmp RB_ cpPass, cpPar, strlen RB_ cpPass _RB  _RB  EQUAL_TO 0  _RB
+			 CB_
+				bPass  EQUAL  TRUTH _EI
+			 _CB
+		 _CB
+
+		 IS  RB_ cpPar EQUAL_TO  RB_  STRING  _RB 0 _RB   STOPHERE  _EI
+	 _CB
+
+	 IS  RB_ ferror RB_ fd _RB   NOT_EQUAL  0 _RB
+	 CB_
+		perr RB_ ERRNO, "Error at reading customer data." _RB  _EI
+		 RB_  NOTHING  _RB  fclose RB_ fd _RB  _EI
+		 GIVEBACK  EXIT_FAILURE _EI
+	 _CB
+
+	 RB_  NOTHING  _RB  fclose RB_ fd _RB  _EI
+
+	 IS  RB_ bUser && bPass _RB
+	 CB_
+		 GIVEBACK  EXIT_SUCCESS _EI
+	 _CB
+
+	 GIVEBACK  EXIT_FAILURE _EI
+ _CB
+

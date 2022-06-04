@@ -1,0 +1,238 @@
+html,
+body {
+	height: 100%;
+	margin: 0;
+	font-family: "Helvetica";
+	background: none !important;
+}
+
+body {
+	display: flex;
+	background-color: #373747;
+	background: #0B0B0E;
+}
+
+a,
+a:visited {
+	color: darkblue;
+}
+
+a.impressum,
+a.impressum:visited {
+	color: #e75277 !important;
+}
+
+.resp-container {
+	position: relative;
+	overflow: hidden;
+	padding-top: calc(9% / 16 * 100 - 10%);
+}
+
+.statusbar {
+	height: 10%;
+	display: flex;
+	background: #0B0B0E;
+	color: #F4577E;
+	border-bottom: 1px solid #F4577E;
+}
+
+.statusbar>div {
+	flex: 1
+}
+
+.resp-container iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border: 0 !important;
+	background-color: hsla(240, 13%, 15%, 1);
+}
+
+.phone {
+	background-color: #373747;
+	padding: 20px 80px;
+	border-radius: 40px;
+	width: 80%;
+	height: auto;
+	margin: auto;
+	position: relative;
+	box-sizing: border-box;
+	box-shadow: -10px -10px 20px hsla(240, 13%, 35%, 1), 10px 10px 20px hsla(240, 13%, 15%, 1);
+	max-width: calc(100vh * 16 / 9);
+}
+
+#homebutton_m {
+	position: absolute;
+	right: 10px;
+	width: 60px;
+	height: 60px;
+	-webkit-appearance: none;
+	top: 50%;
+	transform: translateY(-50%);
+	border-radius: 30px;
+	background-color: hsla(240, 13%, 20%, 1);
+	color: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.07);
+	cursor: pointer;
+	box-shadow: inset -3px -3px 3px hsla(240, 13%, 29%, 1), inset 3px 3px 3px hsla(240, 13%, 15%, 1);
+}
+
+#homebutton {
+	position: absolute;
+	right: 10px;
+	width: 60px;
+	height: 60px;
+	-webkit-appearance: none;
+	top: 50%;
+	transform: translateY(-50%);
+	border-radius: 2.5vh;
+	background: #0B0B0E url(../images/logo/esse.png) no-repeat center center;
+	background-size: 80%;
+	color: transparent;
+	border: 2px solid #F4577E;
+	cursor: pointer;
+	box-shadow: inset -5px -5px 5px hsla(240, 13%, 29%, 1), inset 5px 5px 5px hsla(240, 13%, 15%, 1);
+}
+
+#button_r {
+	height: 8vh;
+	width: 8vh;
+	background: #0B0B0E url(../images/logo/esse.png) no-repeat center center;
+	background-size: 85%;
+	margin-top: -41.5vh;
+	margin-left: 3.25vh;
+	border: 0.5vh solid #F4577E;
+	border-radius: 2.5vh;
+	cursor: pointer;
+	display: block;
+}
+
+#logo_r {
+	width: 6.5vh;
+	height: auto;
+	margin: auto;
+}
+
+#statusbar_left {
+	text-align: left;
+}
+
+#statusbar_middle {
+	text-align: center;
+}
+
+#statusbar_right {
+	text-align: right;
+}
+
+.statusbar_p {
+	margin: 0;
+	padding: 0;
+	padding-left: 3%;
+	padding-right: 3%;
+	padding-top: 1%;
+	font-size: 1.75vh;
+}
+
+#content {
+	padding-left: 3vh;
+	padding-right: 3vh;
+	background-color: #090a12;
+	background-size: 80% auto;
+	background-repeat: no-repeat;
+	background-position: 50% 35%;
+	width: 100%;
+}
+
+#change_style_button {
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	margin-top: 0px;
+	cursor: pointer;
+	background: #a72749;
+}
+
+#change_style_button:hover {
+	background: #330411;
+}
+
+#content-wrapper {
+	position: fixed;
+	bottom: 0;
+}
+
+.app {
+	display: inline-block;
+	width: 24vh;
+	height: 24vh;
+	border-radius: 5.5vh;
+	margin: 4vh;
+	margin-top: 7vh;
+	cursor: pointer;
+}
+
+#netterguestbook {
+	background: url(../images/appicons/netterguestbook.png) no-repeat center center;
+	background-size: 100%;
+}
+
+#nettermaps {
+	background: url(../images/appicons/nettermaps.png) no-repeat center center;
+	background-size: 100%;
+}
+
+#nettermusic {
+	background: url(../images/appicons/nettermusic.png) no-repeat center center;
+	background-size: 100%;
+}
+
+#netternotes {
+	background: url(../images/appicons/netternotes.png) no-repeat center center;
+	background-size: 100%;
+}
+
+#netterpizza {
+	background: url(../images/appicons/netterpizza.png) no-repeat center center;
+	background-size: 100%;
+}
+
+
+.flex_container {
+	display: flex;
+	flex-direction: row;
+	color: white;
+	width: 100%;
+}
+
+.flex_container div {
+	margin-top: calc(3vh + 2px);
+	width: 33%;
+	text-align: center;
+}
+
+
+@media only screen and (max-width: 1600px) {
+	.app {
+		max-width: 100px;
+		max-height: 100px;
+		border-radius: 15px;
+	}
+}
+
+@media only screen and (max-width: 950px) {
+	#content-wrapper {
+		margin-right: 15%;
+	}
+}
+
+.service_desc p {
+	background-color: #090a12b5;
+}
