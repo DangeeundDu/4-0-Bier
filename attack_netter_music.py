@@ -33,5 +33,4 @@ def exploit(target: Target):
                 flag = match.split(" = ")[1]
                 flags.append(flag)
 
-
     return flags
